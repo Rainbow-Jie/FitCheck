@@ -65,7 +65,7 @@ check_deps() {
 # ---- 创建必要目录 ----
 init_dirs() {
     log_step "初始化目录"
-    mkdir -p data/uploads/avatar data/logs/archive
+    mkdir -p data/uploads/avatar data/logs/archive data/logs/nginx nginx/ssl
     log_info "目录已就绪"
 }
 
@@ -126,12 +126,12 @@ show_logs() {
     $COMPOSE logs -f --tail=100 backend
 }
 
-# ---- 停止后端服务 ----
+# ---- 停止所有服务 ----
 stop_services() {
     check_deps
-    log_step "停止后端服务"
-    $COMPOSE stop backend
-    log_info "后端服务已停止"
+    log_step "停止所有服务"
+    $COMPOSE down
+    log_info "服务已停止"
 }
 
 # ---- 入口 ----

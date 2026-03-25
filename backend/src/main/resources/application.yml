@@ -1,0 +1,51 @@
+server:
+  port: 20001
+  servlet:
+    context-path: /fitcheck-api
+
+spring:
+  application:
+    name: fitcheck-backend
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://49.235.141.201:3306/FitCheck?useUnicode=true&characterEncoding=utf8&useSSL=false&serverTimezone=Asia/Shanghai&allowPublicKeyRetrieval=true
+    username: root
+    password: Nzj201226!
+    hikari:
+      connection-timeout: 30000          # 获取连接最长等待 30s
+      idle-timeout: 600000               # 空闲连接保留 10min
+      max-lifetime: 1800000              # 连接最大存活 30min（必须 < MySQL wait_timeout）
+      keepalive-time: 60000              # 每 60s 发一次 SELECT 1 保活
+      validation-timeout: 5000           # 连接验证超时 5s
+      connection-test-query: SELECT 1    # 验证 SQL
+      minimum-idle: 5
+      maximum-pool-size: 10
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: false
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.MySQL8Dialect
+        format_sql: true
+  servlet:
+    multipart:
+      enabled: true
+      max-file-size: 2MB
+      max-request-size: 10MB
+
+# 文件上传路径
+upload:
+  path: ./uploads
+  avatar: /avatar
+  
+# JWT配置
+jwt:
+  secret: baf32a9c-27f2-11f1-8839-0242ac110002
+  expiration: 604800000  # 7天
+  
+# 日志配置由 logback-spring.xml 统一管理
+# 如需临时调整级别，可在此处覆盖，例如：
+# logging:
+#   level:
+#     com.fitcheck: DEBUG

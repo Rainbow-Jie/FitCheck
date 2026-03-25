@@ -1,0 +1,23 @@
+# Maven 构建产物（Dockerfile 内已通过多阶段复制）
+target/
+*.jar
+
+# IDE 配置
+.idea/
+*.iml
+.classpath
+.project
+.settings/
+
+# 测试相关
+src/test/
+
+# 本地配置（含密码，不打进镜像）
+src/main/resources/application-local.yml
+src/main/resources/application-dev.yml
+
+# 临时文件
+*.log
+*.tmp
+uploads/
+logs/

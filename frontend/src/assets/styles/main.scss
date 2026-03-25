@@ -1,0 +1,114 @@
+// 主题色 - 橘色渐变
+$primary-color: #FF9A56;
+$secondary-color: #FF7B54;
+$accent-color: #FFD194;
+$bg-color: #f8f9fa;
+$text-color: #1a1a1a;
+$text-secondary: #6c757d;
+$border-color: #e9ecef;
+$success-color: #2ec4b6;
+
+// 公共样式
+.page-container {
+  min-height: 100vh;
+  background: linear-gradient(180deg, #fff 0%, #f5f7fa 100%);
+  padding-bottom: 70px;
+}
+
+// 动画
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes pulse {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.05); }
+}
+
+@keyframes ripple {
+  0% { transform: scale(1); opacity: 0.6; }
+  100% { transform: scale(1.5); opacity: 0; }
+}
+
+// 通用卡片
+.card {
+  background: #fff;
+  border-radius: 20px;
+  padding: 20px;
+  margin: 16px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.06);
+}
+
+// 渐变按钮
+.btn-gradient {
+  background: linear-gradient(135deg, $primary-color 0%, $secondary-color 100%);
+  border: none;
+  border-radius: 12px;
+  color: #fff;
+  font-size: 16px;
+  font-weight: 600;
+  padding: 14px 24px;
+  transition: all 0.3s ease;
+  
+  &:active { transform: scale(0.98); opacity: 0.9; }
+  &:hover { box-shadow: 0 8px 24px rgba(255, 123, 84, 0.35); }
+}
+
+// 排名样式
+.rank-gold {
+  background: linear-gradient(135deg, #FFD700 0%, #FFA500 100%) !important;
+}
+
+.rank-silver {
+  background: linear-gradient(135deg, #C0C0C0 0%, #A0A0A0 100%) !important;
+}
+
+.rank-bronze {
+  background: linear-gradient(135deg, #CD7F32 0%, #B87333 100%) !important;
+}
+
+// 底部导航
+.bottom-nav {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 60px;
+  background: #fff;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  box-shadow: 0 -2px 16px rgba(0, 0, 0, 0.06);
+  z-index: 100;
+  padding-bottom: env(safe-area-inset-bottom);
+  
+  .nav-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    color: $text-secondary;
+    text-decoration: none;
+    padding: 8px 24px;
+    transition: all 0.3s ease;
+    
+    .nav-icon { font-size: 24px; margin-bottom: 2px; }
+    .nav-text { font-size: 12px; }
+    
+    &.active { color: $primary-color; }
+  }
+}
+
+// Vant 组件覆盖
+:deep(.van-button--primary) {
+  background: linear-gradient(135deg, $primary-color 0%, $secondary-color 100%);
+  border: none;
+}
+
+:deep(.van-tag--primary) {
+  background: $primary-color;
+}
+
+:deep(.van-loading__spinner) {
+  color: $primary-color;
+}

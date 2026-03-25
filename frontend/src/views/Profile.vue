@@ -171,9 +171,15 @@ const stats = reactive({ totalDays: 0, rank: '-' })
 const editForm = reactive({ username: '', phone: '', gender: 0, birthday: '' })
 const pwdForm = reactive({ oldPassword: '', newPassword: '', confirmPassword: '' })
 
-const avatarUrl = computed(() =>
-  user.avatar || `https://api.dicebear.com/7.x/avataaars/svg?seed=${user.username}`
-)
+const avatarUrl = computed(() => {
+  const av = user.avatar
+  if (!av) return `https://api.dicebear.com/7.x/avataaars/svg?seed=${user.username}`
+  if (av.startsWith('http') || av.startsWith('data:')) return av
+  // /avatar/xxx.jpg → /fitcheck-api/avatar/xxx.jpg（后端 context-path）
+  const apiPath = av.startsWith('/fitcheck-api') ? av : '/fitcheck-api' + av
+  const base = import.meta.env.DEV ? 'http://localhost:20001' : ''
+  return base + apiPath
+})
 
 const maskedPhone = computed(() => {
   if (!user.phone || user.phone.length < 7) return user.phone
@@ -222,10 +228,22 @@ async function handleAvatarChange(e) {
   fd.append('file', file)
   try {
     const res = await userApi.uploadAvatar(fd)
-    user.avatar = res.data?.url || res.data || user.avatar
-    saveLocal()
+    console.log('[avatar] 上传返回:', JSON.stringify(res))
+    // 后端返回 Result<String>，经过 axios 拦截器后 res = {code,data,message}
+    // data 直接是 "/avatar/xxx.jpg" 字符串
+    const path = res.data?.url || res.data
+    console.log('[avatar] 解析 url:', path)
+    if (path) {
+      // 开发环境拼接后端地址，生产环境用相对路径（Nginx 统一处理）
+      const base = import.meta.env.DEV ? 'http://localhost:20001' : ''
+      user.avatar = base + path
+      saveLocal()
+    }
     showToast('头像更新成功')
-  } catch(e) {}
+  } catch(err) {
+    console.error('[avatar] 上传失败:', err)
+    showToast('头像上传失败：' + (err.message || '未知错误'))
+  }
 }
 
 function saveLocal() {

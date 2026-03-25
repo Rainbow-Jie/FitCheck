@@ -168,7 +168,12 @@ function closePopup() {
 }
 
 function getAvatar(item) {
-  return item?.avatar || `https://api.dicebear.com/7.x/avataaars/svg?seed=${item?.username}`
+  const av = item?.avatar
+  if (!av) return `https://api.dicebear.com/7.x/avataaars/svg?seed=${item?.username}`
+  if (av.startsWith('http') || av.startsWith('data:')) return av
+  const apiPath = av.startsWith('/fitcheck-api') ? av : '/fitcheck-api' + av
+  const base = import.meta.env.DEV ? 'http://localhost:20001' : ''
+  return base + apiPath
 }
 
 async function loadRank(type) {

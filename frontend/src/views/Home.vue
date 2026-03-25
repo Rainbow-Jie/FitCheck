@@ -215,9 +215,14 @@ const calendarDays = ref([])
 const tipIndex = ref(0)
 const mottoIndex = ref(0)
 
-const avatarUrl = computed(() =>
-  user.avatar || `https://api.dicebear.com/7.x/avataaars/svg?seed=${user.username}`
-)
+const avatarUrl = computed(() => {
+  const av = user.avatar
+  if (!av) return `https://api.dicebear.com/7.x/avataaars/svg?seed=${user.username}`
+  if (av.startsWith('http') || av.startsWith('data:')) return av
+  const apiPath = av.startsWith('/fitcheck-api') ? av : '/fitcheck-api' + av
+  const base = import.meta.env.DEV ? 'http://localhost:20001' : ''
+  return base + apiPath
+})
 const calendarTitle = computed(() => `${calendarYear.value}年${calendarMonth.value}月`)
 
 const greetingText = computed(() => {

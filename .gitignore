@@ -10,6 +10,7 @@ frontend/node_modules/
 
 # Maven 构建产物
 backend/target/
+backend/uploads/
 
 # IDE
 .idea/

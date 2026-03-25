@@ -13,6 +13,10 @@ export default defineConfig({
       '/fitcheck-api': {
         target: 'http://localhost:20001',
         changeOrigin: true
+      },
+      '^/avatar': {
+        target: 'http://localhost:20001',
+        changeOrigin: true
       }
     }
   }
